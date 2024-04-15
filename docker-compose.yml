@@ -1,0 +1,39 @@
+version: '2.24'
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: postgresdb
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgressecret
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+
+  webapp:
+    build: .
+    container_name: apple-slice-app
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+      - 5555:5555
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - .:/webapp
+      # - ./src:/webapp/src
+    
+# env_file:
+#   - path: ./.env
+#     required: true # default
+
+volumes:
+  postgres_data:
