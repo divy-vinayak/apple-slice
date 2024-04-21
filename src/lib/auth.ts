@@ -14,7 +14,6 @@ export const NEXT_AUTH_CONFIG = {
                     placeholder: "",
                 },
             },
-
             async authorize(credentials: any) {
                 try {
                     const userDb = await prisma.user.findFirst({
@@ -61,7 +60,7 @@ export const NEXT_AUTH_CONFIG = {
                     return null;
                 }
             },
-        }),
+        },),
     ],
     secret: process.env.NEXTAUTH_SECRET,
 };

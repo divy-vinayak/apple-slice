@@ -35,6 +35,15 @@ export default function SignUp() {
                 alert('Invalid Email')
             }
         }
+        if (res.status === 409) {
+            alert(data.message)
+        }
+        setFormData({
+            email: '',
+            password: '',
+            confirmPassword: '',
+            name: ''
+        })
     }
 
     return (
@@ -50,7 +59,7 @@ export default function SignUp() {
                         email: e.target.value,
                     });
                 }}
-                placeholder="email"
+                placeholder="Email"
                 className="text-black rounded-sm p-1"
             />
             {/* <label>Password: <button className=" bg-teal-500 hover:bg-teal-400 rounded-sm p-1 text-sm" onClick={() => setShowPassword(val => !val)}>{showPassword? 'Hide Password' : 'Show Password'}</button></label> */}
@@ -63,7 +72,7 @@ export default function SignUp() {
                         password: e.target.value,
                     });
                 }}
-                placeholder="password"
+                placeholder="Password"
                 className="text-black rounded-sm p-1"
             />
             <label>Confirm Password: </label>
@@ -75,7 +84,7 @@ export default function SignUp() {
                         confirmPassword: e.target.value,
                     });
                 }}
-                placeholder="password"
+                placeholder="Password"
                 className="text-black rounded-sm p-1"
             />
             <button

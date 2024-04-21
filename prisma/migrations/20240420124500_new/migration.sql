@@ -4,17 +4,20 @@ CREATE TABLE "User" (
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "name" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "token" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Chats" (
-    "id" SERIAL NOT NULL,
+    "id" UUID NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted" BOOLEAN NOT NULL DEFAULT false,
     "user_id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL,
 
     CONSTRAINT "Chats_pkey" PRIMARY KEY ("id")
 );
@@ -25,7 +28,7 @@ CREATE TABLE "Messages" (
     "send_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "sent_by_user" BOOLEAN NOT NULL DEFAULT false,
     "message" TEXT NOT NULL,
-    "chat_id" INTEGER NOT NULL,
+    "chat_id" UUID NOT NULL,
 
     CONSTRAINT "Messages_pkey" PRIMARY KEY ("id")
 );

@@ -25,12 +25,13 @@ model User {
 }
 
 model Chats {
-  id         Int        @id @unique @default(autoincrement())
+  id         String     @id @unique @default(uuid()) @db.Uuid
   created_at DateTime   @default(now())
   deleted    Boolean    @default(false)
   user_id    Int
   User       User?      @relation(fields: [user_id], references: [id])
   messages   Messages[]
+  title      String
 }
 
 model Messages {
@@ -38,6 +39,6 @@ model Messages {
   send_at      DateTime @default(now())
   sent_by_user Boolean  @default(false)
   message      String
-  chat_id      Int
+  chat_id      String   @db.Uuid
   Chat         Chats?   @relation(fields: [chat_id], references: [id])
 }

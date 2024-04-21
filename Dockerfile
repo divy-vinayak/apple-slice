@@ -3,9 +3,9 @@ FROM node:18
 WORKDIR /webapp
 
 COPY package* .
-RUN npm i
-
 COPY ./prisma .
+
+RUN npm i
 RUN npx prisma generate
 
 COPY . .

@@ -30,8 +30,17 @@ export async function POST(request: NextRequest) {
     if (!userIsValid) {
         return NextResponse.json({message: 'invalidEmail'}, {status: 400});
     }
-    // check for password confirmation
     // check if user exists
+    const userFromDb = await prisma.user.findFirst({
+        where: {
+            email: userData.email,
+        }
+    })
+
+    if(userFromDb) {
+        return NextResponse.json({message: 'User already exists'}, {status: 409})
+    }
+
     const hashedPassword: string = await bcrypt.hash(userData.password, 10);
     console.log({ hashedPassword });
 
