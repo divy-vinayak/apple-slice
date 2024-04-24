@@ -1,5 +1,6 @@
 export interface messageType {
-    id?: string,
-    sentBy: string,
-    content: string,    
+    id?: number,
+    send_at: Date,
+    sent_by_user: boolean,
+    message: string, 
 }

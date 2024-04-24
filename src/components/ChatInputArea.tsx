@@ -1,25 +1,36 @@
 "use client";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { messageType } from "@/lib/types";
+
+interface newMessageType {
+    role: string;
+    content: string;
+}
 
 export default function ChatInputArea({
+    disabled,
     sendMessage,
 }: {
-    sendMessage: (newMessage: messageType) => void;
+    disabled: boolean;
+    sendMessage: (newMessage: newMessageType) => void;
 }) {
-    const [message, setMessage] = useState<messageType>({
-        sentBy: "user",
+    const [message, setMessage] = useState<newMessageType>({
+        role: "user",
         content: "",
     });
 
     const handleSubmit = (): void => {
         sendMessage(message);
+        setMessage({
+            ...message,
+            content: "",
+        });
     };
 
     return (
         <div className="flex p-2 border-t-2 gap-2 bg-white">
             <input
+                disabled={disabled}
                 className="text-black text-xs p-2 flex flex-grow rounded-sm min-h-10 border-2 bg-gray-50"
                 type="text"
                 placeholder="Send Message..."
@@ -31,6 +42,7 @@ export default function ChatInputArea({
             />
             <div className="w-px bg-gray-300 -my-2"></div>
             <Button
+                disabled={disabled}
                 className="bg-blue-950 hover:bg-blue-700 text-white p-2 rounded-sm gap-1"
                 onClick={handleSubmit}
             >
