@@ -74,6 +74,7 @@ export default function ChatArea({ chatId }: { chatId: string }) {
             const textDecoder = new TextDecoder("utf-8");
             let responseStr = "";
             while (true) {
+                // @ts-ignore
                 const { done, value } = await reader?.read();
                 if (done) {
                     setStreamingNewMessage(false);

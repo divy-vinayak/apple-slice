@@ -10,6 +10,7 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 import CreateNewPatientForm from "./CreateNewPatientForm";
+import { useRouter } from "next/navigation";
 
 interface patientType {
     id: number;
@@ -32,6 +33,7 @@ interface PropsType {
 }
 
 export default function SelectPatient({ patients, chatId }: PropsType) {
+    const router = useRouter();
     const [selectedPatient, setSelectedPatient] = useState<patientType | null>(
         null
     );
@@ -52,6 +54,7 @@ export default function SelectPatient({ patients, chatId }: PropsType) {
         });
         const data = await res.json();
         if (res.ok) {
+            router.refresh();
             console.log({ data });
         } else {
             console.error(data);
@@ -60,6 +63,7 @@ export default function SelectPatient({ patients, chatId }: PropsType) {
 
     async function closeForm() {
         setOpenCreateNewPatientForm(false);
+        router.refresh();
     }
 
     return (
