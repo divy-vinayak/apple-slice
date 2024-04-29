@@ -28,10 +28,10 @@ export default function ChatInputArea({
     };
 
     return (
-        <div className="flex p-2 border-t-2 gap-2 bg-white">
+        <div className="flex p-2 border-t-2 gap-2 bg-white shadow-md bottom-0">
             <input
                 disabled={disabled}
-                className="text-black text-xs p-2 flex flex-grow rounded-sm min-h-10 border-2 bg-gray-50"
+                className="text-black p-2 flex flex-grow rounded-sm min-h-10 border-2 bg-gray-50"
                 type="text"
                 placeholder="Send Message..."
                 autoFocus={true}
@@ -43,7 +43,7 @@ export default function ChatInputArea({
             <div className="w-px bg-gray-300 -my-2"></div>
             <Button
                 disabled={disabled}
-                className="bg-blue-950 hover:bg-blue-700 text-white p-2 rounded-sm gap-1"
+                className="bg-blue-950 hover:bg-blue-800 text-white p-2 rounded-sm gap-1"
                 onClick={handleSubmit}
             >
                 <svg

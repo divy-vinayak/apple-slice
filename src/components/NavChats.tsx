@@ -14,9 +14,6 @@ interface chatType {
 export default function NavChats({ chats }: { chats: chatType[] }) {
     const router = useRouter();
     const pathname = usePathname();
-    useEffect(() => {
-        console.log({ pathname });
-    }, [pathname]);
     return (
         <>
             {chats.map((chat, idx) => {
@@ -46,8 +43,9 @@ export default function NavChats({ chats }: { chats: chatType[] }) {
                                 clipRule="evenodd"
                             />
                         </svg>
-
-                        {chat.title}
+                        {chat.title.length > 25
+                            ? chat.title.slice(0, 25) + "..."
+                            : chat.title}
                     </Button>
                 );
             })}

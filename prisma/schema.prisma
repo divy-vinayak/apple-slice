@@ -14,13 +14,14 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @unique @default(autoincrement())
-  username   String   @unique
-  email      String   @unique
+  id         Int       @id @unique @default(autoincrement())
+  username   String    @unique
+  email      String    @unique
   password   String
   name       String?
-  created_at DateTime @default(now())
+  created_at DateTime  @default(now())
   chats      Chats[]
+  patients   Patient[]
   token      String?
 }
 
@@ -32,6 +33,8 @@ model Chats {
   User       User?      @relation(fields: [user_id], references: [id])
   messages   Messages[]
   title      String
+  patient    Patient?   @relation(fields: [patient_id], references: [id])
+  patient_id Int?
 }
 
 model Messages {
@@ -40,5 +43,36 @@ model Messages {
   sent_by_user Boolean  @default(false)
   message      String
   chat_id      String   @db.Uuid
-  Chat         Chats?   @relation(fields: [chat_id], references: [id])
+  chat         Chats?   @relation(fields: [chat_id], references: [id])
+}
+
+model Patient {
+  id                       Int            @id @unique @default(autoincrement())
+  user                     User?          @relation(fields: [user_id], references: [id])
+  user_id                  Int?
+  chats                    Chats[]
+  name                     String
+  sex                      String
+  dementiaTypes            DementiaTypes? @relation(fields: [dementiaTypes_id], references: [id])
+  dementiaTypes_id         Int?
+  dementia_stage           String
+  country                  Country?       @relation(fields: [country_id], references: [id])
+  country_id               Int?
+  other_conditions         String?
+  age                      Int
+  caregiver_relation       String
+  caregiver_shift_duration Int
+  description              String?
+}
+
+model DementiaTypes {
+  id       Int       @id @unique @default(autoincrement())
+  type     String
+  patients Patient[]
+}
+
+model Country {
+  id       Int       @id @unique @default(autoincrement())
+  name     String    @unique
+  patients Patient[]
 }

@@ -27,9 +27,9 @@ export default async function SideBar() {
         },
     });
     return (
-        <div className="p-2 flex flex-col w-80 justify-between bg-blue-950">
-            <div className="flex flex-col flex-grow  w-full gap-2">
-                <StartNewChatBtn label="New Chat" variant="link" type="dark" />
+        <div className="p-2 flex flex-col w-80 justify-between bg-blue-950 gap-2">
+            <StartNewChatBtn label="New Chat" variant="link" type="dark" />
+            <div className="flex flex-col flex-grow w-full gap-2 overflow-y-auto">
                 <NavChats chats={chats} />
             </div>
             <LogoutButton />

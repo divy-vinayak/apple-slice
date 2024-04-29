@@ -53,7 +53,7 @@ export default function StartNewChatBtn({
         >
             <div className="flex gap-2 items-center font-semibold">
                 <Image
-                    src="/apple-slice.webp"
+                    src="/logo.jpeg"
                     alt=""
                     width={20}
                     height={20}

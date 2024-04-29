@@ -7,7 +7,5 @@ export default async function Home() {
   if (session) {
     redirect('/chat')
   }
-  return (
-    <h1>This is homepage</h1>
-  );
+  redirect('/api/auth/signin')
 }

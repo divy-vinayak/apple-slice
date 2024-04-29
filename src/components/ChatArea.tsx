@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import ChatInputArea from "./ChatInputArea";
 import { messageType } from "@/lib/types";
+import Image from "next/image";
 
 export default function ChatArea({ chatId }: { chatId: string }) {
     const [messages, setMessages] = useState<messageType[] | null>(null);
@@ -128,13 +129,24 @@ export default function ChatArea({ chatId }: { chatId: string }) {
     }
 
     return (
-        <div className="bg-white w-full flex flex-col">
+        <div className="bg-white flex flex-grow flex-col h-screen">
             <div
                 ref={scrollableDivRef}
-                className="bg-gray-50 flex flex-grow flex-col-reverse overflow-y-scroll w-full"
+                className="bg-gray-50 flex flex-grow flex-col-reverse overflow-y-scroll p-3"
             >
-                {incomingMessage && (
-                    <div className="bg-gray-300">
+                {(streamingNewMessage || incomingMessage) && (
+                    <div className="bg-gray-300 flex gap-2 px-2 py-1">
+                        <div className="w-7 h-7 min-w-7 min-h-7 shadow-sm shadow-gray-500 bg-white mt-4 rounded-sm items-center">
+                            <Image
+                                src={"/logo.jpeg"}
+                                alt=""
+                                width={26}
+                                height={26}
+                            />
+                        </div>
+                        {!incomingMessage && <div className="text-gray-500">
+                            Awaiting response...
+                        </div>}
                         <Markdown className="px-2 py-4">
                             {incomingMessage?.message}
                         </Markdown>
@@ -146,12 +158,26 @@ export default function ChatArea({ chatId }: { chatId: string }) {
                             <div
                                 key={idx}
                                 className={
-                                    message.sent_by_user
+                                    (message.sent_by_user
                                         ? "bg-gray-50"
-                                        : "bg-gray-300"
+                                        : "bg-gray-300") +
+                                    " flex gap-2 px-4 py-1 rounded-sm"
                                 }
                             >
-                                <Markdown className="px-2 py-4">
+                                {" "}
+                                <div className="w-7 h-7 min-w-7 min-h-7 shadow-sm shadow-gray-500 bg-white mt-4 rounded-sm items-center">
+                                    <Image
+                                        src={
+                                            message.sent_by_user
+                                                ? "/user.svg"
+                                                : "/logo.jpeg"
+                                        }
+                                        alt=""
+                                        width={26}
+                                        height={26}
+                                    />
+                                </div>
+                                <Markdown className="px-2 py-4 flex flex-col gap-4 font-medium">
                                     {message.message}
                                 </Markdown>
                             </div>
