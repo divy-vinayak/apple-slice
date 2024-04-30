@@ -81,7 +81,32 @@ export default function ChatArea({ chatId }: { chatId: string }) {
                     setIncomingMessage(null);
                     break;
                 }
-                responseStr += textDecoder.decode(value);
+
+                const chunk = textDecoder.decode(value);
+                console.log({ chunk });
+                const lines = chunk.split("\n");
+                console.log({ lines });
+                const parsedLines = lines
+                    .map((line) => line.replace(/^data: /, "").trim()) // Remove the "data: " prefix
+                    .filter((line) => line !== "" && line !== "[DONE]"); // Remove empty lines and "[DONE]"
+                // .map((line) => JSON.parse(line)); // Parse the JSON string
+                console.log({ parsedLines });
+                for (const parsedLine of parsedLines) {
+                    try {
+                        const parsedLineJson = JSON.parse(parsedLine);
+                        const { choices } = parsedLineJson;
+                        const { delta } = choices[0];
+                        const { content } = delta;
+                        // Update the UI with the new content
+                        if (content) {
+                            responseStr += content;
+                        }
+                    } catch (error) {
+                        console.log({ skipped: parsedLine });
+                        console.error({ error });
+                    }
+                }
+
                 setIncomingMessage((incomingMessage) => {
                     if (!incomingMessage) {
                         return {
@@ -145,9 +170,11 @@ export default function ChatArea({ chatId }: { chatId: string }) {
                                 height={26}
                             />
                         </div>
-                        {!incomingMessage && <div className="text-gray-500">
-                            Awaiting response...
-                        </div>}
+                        {!incomingMessage && (
+                            <div className="text-gray-500">
+                                Awaiting response...
+                            </div>
+                        )}
                         <Markdown className="px-2 py-4">
                             {incomingMessage?.message}
                         </Markdown>
