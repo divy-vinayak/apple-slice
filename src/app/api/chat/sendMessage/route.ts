@@ -2,8 +2,6 @@ import prisma from "@/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
-import { OpenAI } from "openai-streams";
-import { OpenAIStream, StreamingTextResponse } from "ai";
 
 export async function POST(request: Request) {
     try {
@@ -188,7 +186,7 @@ export async function POST(request: Request) {
             },
         });
 
-        // lafjdklsjfla
+        // prev
         // const stream = OpenAIStream(res);
         // console.log({ stream });
         // return new StreamingTextResponse(stream);
