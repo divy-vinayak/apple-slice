@@ -9,6 +9,11 @@ export async function POST(request: Request) {
             chatId,
             newMessage,
         }: { chatId: string; newMessage: messageType } = requestBody;
+        if (newMessage.message.trim().length === 0) return NextResponse.json({
+            message: "Can't store empty message to chat"
+        }, {
+            status: 400
+        })
         const newMessageDb = await prisma.messages.create({
             data: {
                 chat_id: chatId,

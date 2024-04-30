@@ -37,7 +37,7 @@ export default async function ProfileSection({ chatId }: PropsType) {
     console.log({ patientAssociatedWithChat });
 
     return (
-        <div className="min-w-[500px] max-w-[500px] p-2 h-full flex">
+        <div className="min-w-[500px] max-w-[500px] h-full flex">
             {patientAssociatedWithChat?.patient ? (
                 <PatientProfile patient={patientAssociatedWithChat.patient} />
             ) : (

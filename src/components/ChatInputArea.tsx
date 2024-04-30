@@ -28,7 +28,7 @@ export default function ChatInputArea({
     };
 
     return (
-        <div className="flex p-2 border-t-2 gap-2 bg-white shadow-md bottom-0">
+        <div className="flex p-2 border-2 border-gray-200 gap-2 bg-white shadow-md bottom-0">
             <input
                 disabled={disabled}
                 className="text-black p-2 flex flex-grow rounded-sm min-h-10 border-2 bg-gray-50"

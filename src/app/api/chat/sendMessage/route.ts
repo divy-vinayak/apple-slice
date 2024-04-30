@@ -49,7 +49,7 @@ export async function POST(request: Request) {
                 chat_id: chatDb.id,
             },
             orderBy: {
-                send_at: "desc",
+                send_at: "asc",
             },
             take: 50,
         });
@@ -102,13 +102,25 @@ export async function POST(request: Request) {
 
         // system message
         let systemMessageContent =
-            "Your name is Uncease AI bot. You are designed to provide information to people about dementia care. You are an incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by Team Uncease, a group of students from IIT Kharagpur as part of their BTP project under professor Dr. Ram Babu Roy. Your response must be formatted as markdown. You must not mention any sources from the context doc provided to you. Use it only for internal reference. You should say you have been fine tuned with around a 1000 question and answers to dementia related topics. You must keep your responses precise and upto the mark and as small as possible. Try to stay within 200 words.";
+            "Your name is Uncease AI bot, an advanced AI designed to provide expert information on dementia care. You bring an enthusiastic and positive energy to your quick-thinking, precise responses. Created by Team Uncease at IIT Kharagpur, you were fine-tuned with around 1,000 dementia-related questions and answers under the guidance of Dr. Ram Babu Roy. Only answer what is asked. Your response must be formatted in markdown.";
 
         if (patient) {
             systemMessageContent += `You should answer taking into consideration that you are answering for this patient: ${JSON.stringify(
-                patient
+                {
+                    ...patient.patient,
+                    caregiver_realtion:
+                        "user i.e. the caregiver is " +
+                        patient.patient?.caregiver_relation +
+                        " of patient",
+                    caregiver_shift_duration:
+                        "Caregiver can spare " +
+                        patient.patient?.caregiver_shift_duration +
+                        " hours",
+                }
             )}`;
         }
+
+        systemMessageContent += " Only answer the last user message.";
         const systemMessage: {
             role: "system" | "assistant" | "user";
             content: string;
@@ -127,23 +139,12 @@ export async function POST(request: Request) {
                 content: message.message,
             };
         });
-        messagesToSend.unshift(systemMessage);
 
-        // after stream ends... add the reponse message to db
+        messagesToSend.unshift(systemMessage);
         console.log({ messagesToSend });
-        // const stream = await OpenAI(
-        //     "chat",
-        //     {
-        //         model: "mistral-7b",
-        //         messages: messagesToSend,
-        //     },
-        //     {
-        //         apiBase: process.env.MODEL_SERVER_URL,
-        //         apiKey: process.env.OPENAI_API_KEY || "",
-        //     }
-        // );
+
         const res = await fetch(
-            `${process.env.MODEL_SERVER_URL}/chat/completions`,
+            `${process.env.MODEL_SERVER_URL}/v1/chat/completions`,
             {
                 method: "POST",
                 headers: {
@@ -153,9 +154,11 @@ export async function POST(request: Request) {
                     messages: messagesToSend,
                     stream: true,
                     use_context: true,
+                    temperature: 0.3
                 }),
             }
         );
+
         if (!res.ok) {
             const errorText = await res.text();
             return NextResponse.json(
@@ -185,11 +188,6 @@ export async function POST(request: Request) {
                 "Content-Type": "text/event-stream", // Set the content type to indicate a streaming response
             },
         });
-
-        // prev
-        // const stream = OpenAIStream(res);
-        // console.log({ stream });
-        // return new StreamingTextResponse(stream);
     } catch (error) {
         console.error({ error });
         return NextResponse.json(

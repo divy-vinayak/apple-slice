@@ -358,7 +358,7 @@ export default function CreateNewPatientForm({
                         name="caregiver_shift_duration"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Caregiver Shift Duration</FormLabel>
+                                <FormLabel>Caregiver Shift Duration (hr/day)</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="number"
