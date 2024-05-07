@@ -143,21 +143,35 @@ export async function POST(request: Request) {
         messagesToSend.unshift(systemMessage);
         console.log({ messagesToSend });
 
-        const res = await fetch(
-            `${process.env.MODEL_SERVER_URL}/v1/chat/completions`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    messages: messagesToSend,
-                    stream: true,
-                    use_context: true,
-                    temperature: 0.3
-                }),
-            }
-        );
+        const res = await fetch(`https://api.openai.com/v1/chat/completions`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+            },
+            body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                messages: messagesToSend,
+                stream: true,
+                temperature: 0.3,
+            }),
+        });
+
+        // const res = await fetch(
+        //     `${process.env.MODEL_SERVER_URL}/v1/chat/completions`,
+        //     {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //             messages: messagesToSend,
+        //             stream: true,
+        //             use_context: true,
+        //             temperature: 0.3
+        //         }),
+        //     }
+        // );
 
         if (!res.ok) {
             const errorText = await res.text();

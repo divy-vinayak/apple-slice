@@ -1,3 +1,4 @@
+import HomePage from "@/components/HomePage";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -7,5 +8,5 @@ export default async function Home() {
   if (session) {
     redirect('/chat')
   }
-  redirect('/api/auth/signin')
+  return <HomePage />
 }
