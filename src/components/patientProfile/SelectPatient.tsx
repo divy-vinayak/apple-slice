@@ -95,6 +95,7 @@ export default function SelectPatient({ patients, chatId }: PropsType) {
                                 <SelectValue placeholder="Select Patient" />
                             </SelectTrigger>
                             <SelectContent>
+                                {patients.length === 0 && <SelectItem value="Null" disabled>Click on Create New Button to add Patient</SelectItem>}
                                 {patients.map((patient) => {
                                     return (
                                         <SelectItem
