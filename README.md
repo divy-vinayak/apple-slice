@@ -9,5 +9,6 @@ To run the project locally, follow the steps:
 6. In another terminal in the same directory, run
     a. `$ docker exec -it apple-slice-app /bin/bash`
     b. `$ npx prisma migrate dev`
+    c. `$ exit`
 7. Navigate to localhost:3000
 8. Go to Signup and register with a user and start playing with the application
