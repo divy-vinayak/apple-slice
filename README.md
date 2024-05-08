@@ -10,7 +10,7 @@ To run the project locally, follow the steps:
 5. Put your openAI api key inside the **.env** file , if you're not using any self hosted LLM model.
 6. In the root of the project, open terminal and run the following commands
    a. `$ docker compose up`
-7. In another terminal in the same directory, run
+7. In another terminal, run
    a. `$ docker exec -it apple-slice-app /bin/bash`
    b. `$ npx prisma migrate dev`
    c. `$ exit`
