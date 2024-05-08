@@ -4,7 +4,7 @@ To run the project locally, follow the steps:
 
 1. Install docker and docker compose [guide to install](https://docs.docker.com/desktop/install/ubuntu/)
 2. clone the repository,
-     a. `$ git clone https://docs.docker.com/desktop/install/ubuntu/`
+     a. `$ git clone https://github.com/divy-vinayak/apple-slice.git`
 3. `$ cd apple-slice`
 4. Rename the **.env.example** file to **.env**
 5. Put your openAI api key, if you're not using any self hosted LLM model.
