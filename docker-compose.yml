@@ -28,8 +28,7 @@ services:
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - JWT_SECRET=${JWT_SECRET}
     volumes:
-      - .:/webapp
-      # - ./src:/webapp/src
+      - ./src:/webapp/src
     
 # env_file:
 #   - path: ./.env

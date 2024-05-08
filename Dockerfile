@@ -2,11 +2,10 @@ FROM node:20
 
 WORKDIR /webapp
 
-# COPY package* .
-COPY package.json .
+COPY package* .
 COPY ./prisma .
 
-RUN npm i
+RUN npm install
 RUN npx prisma generate
 
 COPY . .
